@@ -8,6 +8,8 @@ import com.sebCzabak.fullstackProjectEmployeTodoList.service.TaskService;
 import com.sebCzabak.fullstackProjectEmployeTodoList.request.RegistrationRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path="/api")
 public class EmployeeController {
@@ -20,6 +22,10 @@ public class EmployeeController {
     private final TaskService taskService;
     private final EmployeeService employeeService;
 
+    @GetMapping("/employees")
+    public List<Employee>getAllEmployees(){
+        return employeeService.findALl();
+    }
 
     @GetMapping("/employees/{id}")
     public Employee getEmployee(@PathVariable Long id){
@@ -46,7 +52,7 @@ public class EmployeeController {
         return taskService.toggleTaskDone(id);
     }
 
-    @DeleteMapping("{employeeid}/tasks/{taskid}")
+    @DeleteMapping("{employee}/tasks/{taskid}")
     public void deleteTask(@PathVariable Long employeeid, @PathVariable Long taskid){
         taskService.deleteTask(employeeid,taskid);
     }

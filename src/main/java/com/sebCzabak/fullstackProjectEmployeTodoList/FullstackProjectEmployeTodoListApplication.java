@@ -1,17 +1,21 @@
 package com.sebCzabak.fullstackProjectEmployeTodoList;
 
+
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRepo;
+
+import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRole;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.TaskRepo;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import static com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRole.USER;
+import static org.hibernate.cfg.AvailableSettings.USER;
 
 @SpringBootApplication
-public class FullstackProjectEmployeTodoListApplication implements CommandLineRunner{
+public class FullstackProjectEmployeTodoListApplication implements CommandLineRunner {
 
 	public FullstackProjectEmployeTodoListApplication(EmployeeRepo employeeRepo, TaskRepo taskRepo) {
 		this.employeeRepo = employeeRepo;
@@ -27,14 +31,16 @@ public class FullstackProjectEmployeTodoListApplication implements CommandLineRu
 
 	@Override
 	public void run(String... args) throws Exception {
-		Employee employee = new Employee();
-		employee.setFullName("JohnDoe");
-		employee.setUserName("jd");
-		employee.setPassword("123");
-		employee.setEmail("john@email.com");
-		employee.setEmployeeRole(USER);
+		Employee employee =new Employee();
+		employee.setFullName("John Rambo");
+		employee.setUserName("rocky");
+		employee.setEmail("rocky@gmail.com");
+		employee.setPassword("1234");
+		employee.setEmployeeRole(EmployeeRole.USER);
+		employee.setLocked(false);
+
 		Task task =new Task();
-		task.setDescription("Test");
+		task.setDescription("Get the Tittle");
 
 		employee.getTaskList().add(task);
 		taskRepo.save(task);
@@ -42,3 +48,4 @@ public class FullstackProjectEmployeTodoListApplication implements CommandLineRu
 
 	}
 }
+

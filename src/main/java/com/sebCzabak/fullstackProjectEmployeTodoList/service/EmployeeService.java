@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -99,5 +100,10 @@ public class EmployeeService implements UserDetailsService {
     public void deleteEmployee(Long id) {
        Employee employee= employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
        employeeRepo.delete(employee);
+    }
+
+
+    public List<Employee> findALl() {
+        return employeeRepo.findAll();
     }
 }

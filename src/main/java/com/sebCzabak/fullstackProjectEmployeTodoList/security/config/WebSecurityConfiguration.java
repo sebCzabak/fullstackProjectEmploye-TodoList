@@ -1,6 +1,6 @@
-package com.sebCzabak.fullstackProjectEmployeTodoList.model.security.config;
+package com.sebCzabak.fullstackProjectEmployeTodoList.security.config;
 
-import com.sebCzabak.fullstackProjectEmployeTodoList.model.service.EmployeeService;
+import com.sebCzabak.fullstackProjectEmployeTodoList.service.EmployeeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

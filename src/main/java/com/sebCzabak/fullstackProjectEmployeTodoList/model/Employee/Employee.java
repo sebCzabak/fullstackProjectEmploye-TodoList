@@ -27,7 +27,7 @@ public class Employee implements UserDetails {
     private String userName;
     private String email;
     private String password;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Task> taskList = new ArrayList<>();
     private EmployeeRole employeeRole;
     private Boolean locked;

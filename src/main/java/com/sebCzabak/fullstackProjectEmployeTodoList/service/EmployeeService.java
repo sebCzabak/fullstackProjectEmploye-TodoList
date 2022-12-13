@@ -1,14 +1,14 @@
-package com.sebCzabak.fullstackProjectEmployeTodoList.model.service;
+package com.sebCzabak.fullstackProjectEmployeTodoList.service;
 
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
 import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationToken;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRepo;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRole;
-import com.sebCzabak.fullstackProjectEmployeTodoList.model.exception.UserNotFoundException;
+import com.sebCzabak.fullstackProjectEmployeTodoList.exception.UserNotFoundException;
 import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationTokenService;
 import com.sebCzabak.fullstackProjectEmployeTodoList.token.EmailValidator;
-import com.sebCzabak.fullstackProjectEmployeTodoList.token.RegistrationRequest;
+import com.sebCzabak.fullstackProjectEmployeTodoList.request.RegistrationRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -46,8 +45,6 @@ public class EmployeeService implements UserDetailsService {
           employee.getTaskList().add(task);
             return employee;
       }
-
-
 
 
     @Override

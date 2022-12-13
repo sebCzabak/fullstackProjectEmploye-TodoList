@@ -1,11 +1,11 @@
-package com.sebCzabak.fullstackProjectEmployeTodoList.model.controller;
+package com.sebCzabak.fullstackProjectEmployeTodoList.controller;
 
 
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
-import com.sebCzabak.fullstackProjectEmployeTodoList.model.service.EmployeeService;
-import com.sebCzabak.fullstackProjectEmployeTodoList.model.service.TaskService;
-import com.sebCzabak.fullstackProjectEmployeTodoList.token.RegistrationRequest;
+import com.sebCzabak.fullstackProjectEmployeTodoList.service.EmployeeService;
+import com.sebCzabak.fullstackProjectEmployeTodoList.service.TaskService;
+import com.sebCzabak.fullstackProjectEmployeTodoList.request.RegistrationRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,8 +46,8 @@ public class EmployeeController {
         return taskService.toggleTaskDone(id);
     }
 
-    @DeleteMapping("/tasks/{id}")
-    public void deleteTask(@PathVariable Long id){
-        taskService.deleteTask(id);
+    @DeleteMapping("{employeeid}/tasks/{taskid}")
+    public void deleteTask(@PathVariable Long employeeid, @PathVariable Long taskid){
+        taskService.deleteTask(employeeid,taskid);
     }
 }

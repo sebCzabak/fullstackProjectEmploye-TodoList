@@ -1,4 +1,4 @@
-package com.sebCzabak.fullstackProjectEmployeTodoList.model.exception;
+package com.sebCzabak.fullstackProjectEmployeTodoList.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,12 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class UserNotFoundAdvice {
+public class TaskNotFoundAdvice {
+
     @ResponseBody
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String,String>exceptionHandler(UserNotFoundException exception){
-        Map<String,String> errorMap=new HashMap<>();
+    public Map<String,String>exeptionHandler(TaskNotFoundException exception){
+        Map<String,String>errorMap =new HashMap<>();
         errorMap.put("Error",exception.getMessage());
         return errorMap;
     }

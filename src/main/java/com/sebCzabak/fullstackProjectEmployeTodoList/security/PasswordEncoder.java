@@ -1,4 +1,4 @@
-package com.sebCzabak.fullstackProjectEmployeTodoList.model.security;
+package com.sebCzabak.fullstackProjectEmployeTodoList.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -2,10 +2,8 @@ package com.sebCzabak.fullstackProjectEmployeTodoList;
 
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRepo;
-import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRole;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.TaskRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

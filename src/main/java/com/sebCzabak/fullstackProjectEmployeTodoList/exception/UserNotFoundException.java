@@ -1,4 +1,4 @@
-package com.sebCzabak.fullstackProjectEmployeTodoList.model.exception;
+package com.sebCzabak.fullstackProjectEmployeTodoList.exception;
 
 public class UserNotFoundException extends RuntimeException{
 

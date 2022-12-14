@@ -1,5 +1,7 @@
 package com.sebCzabak.fullstackProjectEmployeTodoList.service;
 
+import com.sebCzabak.fullstackProjectEmployeTodoList.exception.EmailAlreadyTakenException;
+import com.sebCzabak.fullstackProjectEmployeTodoList.exception.TokenNotFoundException;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
 import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationToken;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
@@ -80,7 +82,7 @@ public class EmployeeService implements UserDetailsService {
             .findByEmail(employee.getEmail())
             .isPresent();
     if(employeeExists){
-        throw new IllegalStateException("email already taken");
+        throw new EmailAlreadyTakenException(employee.getEmail());
     }
     String encodePassword =bCryptPasswordEncoder
             .encode(employee.getPassword());
@@ -106,4 +108,27 @@ public class EmployeeService implements UserDetailsService {
     public List<Employee> findALl() {
         return employeeRepo.findAll();
     }
+
+    @Transactional
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenService
+                .getToken(token)
+                .orElseThrow(()->
+                        new TokenNotFoundException(token));
+        if(confirmationToken.getConfirmedAt()!=null){
+            throw new IllegalStateException("email already confirmed");
+        }
+        LocalDateTime expiredAt= confirmationToken.getExpiresAt();
+        if(expiredAt.isBefore(LocalDateTime.now())){
+            throw new IllegalStateException("token expired");
+        }
+        confirmationTokenService.setConfirmedAt(token);
+        enableEmployee(confirmationToken.getEmployee().getEmail());
+        return "confirmed";
+    }
+    public int enableEmployee(String email){
+        return employeeRepo.enableEmployee(email);
+    }
+
+
 }

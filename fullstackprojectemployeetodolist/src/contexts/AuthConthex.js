@@ -24,5 +24,5 @@ export function AuthProvider({ children }) {
     currentUser,
     signup,
   };
-  return <AuthConthex value={value}>{children}</AuthConthex>;
+  return <AuthConthex.Consumer value={value}>{children}</AuthConthex.Consumer>;
 }

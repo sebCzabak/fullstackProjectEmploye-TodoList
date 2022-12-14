@@ -38,6 +38,7 @@ public class FullstackProjectEmployeTodoListApplication implements CommandLineRu
 		employee.setPassword("1234");
 		employee.setEmployeeRole(EmployeeRole.USER);
 		employee.setLocked(false);
+		employee.setEnabled(true);
 
 		Task task =new Task();
 		task.setDescription("Get the Tittle");

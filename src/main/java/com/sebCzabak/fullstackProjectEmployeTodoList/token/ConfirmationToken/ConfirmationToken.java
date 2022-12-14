@@ -19,13 +19,17 @@ public class ConfirmationToken {
             generator = "confirmation_token_sequence"
     )
     private Long id;
+    @Column(nullable = false)
     private String token;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = false)
     private LocalDateTime expiresAt;
     private LocalDateTime confirmedAt;
 
     @ManyToOne
-    @JoinColumn(name="employee_id")
+    @JoinColumn(nullable = false,
+            name="employee_id")
     private Employee employee;
 
     public ConfirmationToken() {

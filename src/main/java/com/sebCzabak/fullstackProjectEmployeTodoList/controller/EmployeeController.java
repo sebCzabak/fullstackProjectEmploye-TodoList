@@ -56,4 +56,8 @@ public class EmployeeController {
     public void deleteTask(@PathVariable Long employeeid, @PathVariable Long taskid){
         taskService.deleteTask(employeeid,taskid);
     }
+    @GetMapping("/registration/confirm")
+    public String confirm(@RequestParam("token")String token){
+        return employeeService.confirmToken(token);
+    }
 }

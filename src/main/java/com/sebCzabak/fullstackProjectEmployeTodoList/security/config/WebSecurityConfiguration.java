@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration {
+
     public WebSecurityConfiguration(EmployeeService employeeService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.employeeService = employeeService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -27,15 +28,21 @@ public class WebSecurityConfiguration {
         httpSecurity
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/**")
+                    .requestMatchers("/api/registration/**")
+                    .permitAll()
+                .requestMatchers("/api/employees")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
+                .formLogin()
+                .and()
                 .httpBasic();
+
         return httpSecurity.build();
 
     }
+
     protected void configure(AuthenticationManager authenticationManager)throws Exception{
         authenticationManager.authenticate((Authentication) daoAuthenticationProvider());
     }

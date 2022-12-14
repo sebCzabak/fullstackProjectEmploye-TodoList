@@ -29,9 +29,10 @@ public class Employee implements UserDetails {
     private String password;
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Task> taskList = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
     private EmployeeRole employeeRole;
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked=false;
+    private Boolean enabled=false;
 
     public Employee() {
     }

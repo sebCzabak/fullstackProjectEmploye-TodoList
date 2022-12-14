@@ -30,8 +30,9 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests()
                     .requestMatchers("/api/registration/**")
                     .permitAll()
-                .requestMatchers("/api/employees")
-                .permitAll()
+                    .requestMatchers("/api/employees/**")
+                    .permitAll()
+
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -1,5 +1,6 @@
 package com.sebCzabak.fullstackProjectEmployeTodoList.service;
 
+
 import com.sebCzabak.fullstackProjectEmployeTodoList.exception.EmailAlreadyTakenException;
 import com.sebCzabak.fullstackProjectEmployeTodoList.exception.TokenNotFoundException;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
@@ -31,6 +32,7 @@ public class EmployeeService implements UserDetailsService {
         this.emailValidator = emailValidator;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
+
     }
 
     private final EmployeeRepo employeeRepo;
@@ -38,9 +40,11 @@ public class EmployeeService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
+
     public Employee findById(Long id) {
         return employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
     }
+
     public Employee addTask(Long id, Task task){
       employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
 
@@ -71,10 +75,8 @@ public class EmployeeService implements UserDetailsService {
                         request.password(),
                         request.taskList(),
                         EmployeeRole.USER
-
                 )
         );
-
     }
     @Transactional
     public String singUpUser(Employee employee){
@@ -99,9 +101,13 @@ public class EmployeeService implements UserDetailsService {
     return token;
     }
 
-    public void deleteEmployee(Long id) {
-       Employee employee= employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
-       employeeRepo.delete(employee);
+    public String deleteEmployee(Long id) {
+       boolean employeeExists= employeeRepo.existsById(id);
+       if(!employeeExists){
+           throw new UserNotFoundException(id);
+        };
+        employeeRepo.deleteById(id);
+        return "User with id "+id+" has been deleted successfully";
     }
 
 
@@ -131,4 +137,14 @@ public class EmployeeService implements UserDetailsService {
     }
 
 
+    public Employee updateEmployeeInfo(Employee newEmployee, Long id) {
+        return employeeRepo.findById(id)
+                .map(employee -> {
+                    employee.setFullName(newEmployee.getFullName());
+                    employee.setUserName(newEmployee.getUserName());
+                    employee.setEmail(newEmployee.getEmail());
+                    employee.setPassword(newEmployee.getPassword());
+                    return employeeRepo.save(employee);
+                }).orElseThrow(()->new UserNotFoundException(id));
+    }
 }

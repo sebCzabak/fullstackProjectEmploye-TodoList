@@ -28,7 +28,7 @@ public class TaskService {
         return taskRepo.save(task);
     }
 
-    public void deleteTask(Long employeeId,Long taskId) {
+    public void deleteTodo(Long employeeId,Long taskId) {
         Employee employee = employeeRepo.findById(employeeId).orElseThrow(()->new UserNotFoundException(employeeId));
         Task task = taskRepo.findById(taskId).orElseThrow(()->new TaskNotFoundException(taskId));
         employee.getTaskList().remove(task);
@@ -41,5 +41,13 @@ public class TaskService {
 
     public Optional<Task> findById(Long id) {
         return taskRepo.findById(id);
+    }
+
+    public void deleteTask(Long id) {
+        boolean exists = taskRepo.existsById(id);
+        if(!exists){
+            throw new UserNotFoundException(id);
+        }
+        taskRepo.deleteById(id);
     }
 }

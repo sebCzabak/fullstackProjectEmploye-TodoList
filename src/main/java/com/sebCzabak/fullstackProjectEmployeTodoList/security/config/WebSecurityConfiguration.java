@@ -30,22 +30,22 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity)throws Exception{
 
-        httpSecurity= httpSecurity.cors().and().csrf().disable();
+
         httpSecurity
-                .authorizeHttpRequests()
+                .csrf().disable()      .authorizeHttpRequests()
                 .requestMatchers("/api/AdminPage")
                 .hasRole("ADMIN")
                 .requestMatchers("/api/**")
-                .anonymous()
+                .permitAll()
                 .requestMatchers("/api/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("http://localhost:3000/login")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("http://localhost:3000/home")
+                //.loginPage("http://localhost:3000/login")
+                //.loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("http://localhost:3000")
                 .failureUrl("/http://localhost:3000:/home")
 
                // .deleteCookies("JSESSIONID")

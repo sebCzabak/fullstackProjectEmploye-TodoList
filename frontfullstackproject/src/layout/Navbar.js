@@ -16,6 +16,7 @@ function BasicExample() {
               <NavDropdown.Item href="/Register">
                 Register User
               </NavDropdown.Item>
+              <NavDropdown.Item href="/Tasks">User Tasks</NavDropdown.Item>
               <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/">Home Page</NavDropdown.Item>

@@ -67,20 +67,20 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployee(id);
     }
-    @DeleteMapping("/employees/confirmationToken/{id}")
-    public void deleteToken(@PathVariable Long id){
-        confirmationTokenService.deleteToken(id);
-    }
+
     @PostMapping("/tasks/{id}")
     public Task toggleTaskDone(@PathVariable Long id){
         return taskService.toggleTaskDone(id);
     }
 
-    @DeleteMapping("{employeeId}/tasks/{taskId}")
-    public void deleteTask(@PathVariable Long employeeId, @PathVariable Long taskId){
-        taskService.deleteTask(employeeId,taskId);
+    @DeleteMapping("/{employeeId}/tasks/{taskId}")
+    public void deleteTodo(@PathVariable Long employeeId, @PathVariable Long taskId){
+        taskService.deleteTodo(employeeId,taskId);
     }
-
+    @DeleteMapping("/tasks/deleteTask/{id}")
+    public void deleteTask(@PathVariable Long id){
+        taskService.deleteTask(id);
+    }
     @PutMapping("/employees/{id}")
     public Employee updateEmployeeInfo(@RequestBody RegistrationRequest newEmployee,@PathVariable Long id){
         return employeeService.updateEmployeeInfo(newEmployee,id);

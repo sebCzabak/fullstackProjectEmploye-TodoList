@@ -4,11 +4,11 @@ import { Link, Navigate } from "react-router-dom";
 
 export default function Login() {
   const [employee, setEmployee] = useState({
-    userName: "",
+    email: "",
     password: "",
   });
 
-  const { userName, password } = employee;
+  const { email, password } = employee;
 
   const onInputChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
@@ -16,7 +16,7 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.get("http://localhost:8080/api/employees/", employee);
+    await axios.post("http://localhost:8080/api/login", employee);
     Navigate("/");
   };
   return (
@@ -32,9 +32,9 @@ export default function Login() {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter your User Name"
-                name="userName"
-                value={userName}
+                placeholder="Enter your Email as User Name"
+                name="email"
+                value={email}
                 onChange={(e) => onInputChange(e)}
               />
             </div>

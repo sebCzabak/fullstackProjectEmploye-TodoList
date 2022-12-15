@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EditUser from "./Users/EditUser";
 import ViewUser from "./Users/ViewUser";
+import AddTask from "./tasks/AddTask";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/Login" element={<Login />} />
           <Route exact path="/edituser/:id" element={<EditUser />} />
           <Route exact path="/viewuser/:id" element={<ViewUser />} />
+          <Route exact path="/AddTask/:id" element={<AddTask />} />
         </Routes>
       </Router>
     </div>

@@ -21,17 +21,28 @@ public class EmployeeController {
         this.taskService = taskService;
         this.employeeService = employeeService;
         this.confirmationTokenService = confirmationTokenService;
+     //   this.authenticationManager = authenticationManager;
     }
 
     private final TaskService taskService;
     private final EmployeeService employeeService;
     private final ConfirmationTokenService confirmationTokenService;
+   // private final AuthenticationManager authenticationManager;
+
+
 
     @GetMapping("/employees")
     public List<Employee>getAllEmployees(){
         return employeeService.findALl();
     }
-
+    @GetMapping("/todoItems")
+    public List<Task> getAllTasks(){
+        return taskService.findAll();
+    }
+    @GetMapping("/todoItems/{id}")
+    public Optional<Task> getTaskById(@PathVariable Long id){
+       return taskService.findById(id);
+    }
     @GetMapping("/employees/{id}")
     public Employee getEmployee(@PathVariable Long id){
         return employeeService.findById(id);
@@ -79,8 +90,21 @@ public class EmployeeController {
         return employeeService.confirmToken(token);
     }
 
-    @GetMapping("/employees/Login")
-    public Optional<Employee> loginEmployee(@RequestParam String email, @RequestParam String password ){
-        return employeeService.findByEmailAndPassword(email,password);
+//    @GetMapping("/employees/Login")
+//    public ResponseEntity<?> login (@RequestBody LoginRequest request){
+//        try{
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            request.getEmail(),request.getPassword()
+//                    )
+//            );
+//            Employee employee =(Employee) authentication.getPrincipal();
+//            employee.setPassword(null);
+//            return ResponseEntity.ok()
+//                    .header(
+//                            HttpHeaders.AUTHORIZATION
+//                    );
+//        }
     }
-}
+
+

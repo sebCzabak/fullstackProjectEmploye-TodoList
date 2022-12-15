@@ -1,19 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-export default function Navbar() {
+function BasicExample() {
   return (
-    <div>
-      <nav className="navbar navbar-dark bg-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/AdminPage">
-            Fullstack Project
-          </a>
-          <Link className="btn btn-outline-light" to="/Register">
-            Register
-          </Link>
-        </div>
-      </nav>
-    </div>
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand href="/">Fullstack Project</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/AdminPage">AdminPage</NavDropdown.Item>
+              <NavDropdown.Item href="/Register">
+                Register User
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/">Home Page</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
+
+export default BasicExample;

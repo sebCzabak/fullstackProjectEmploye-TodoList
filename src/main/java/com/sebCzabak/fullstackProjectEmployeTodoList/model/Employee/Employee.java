@@ -1,7 +1,6 @@
 package com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee;
 
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
-import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationToken;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -151,7 +150,8 @@ public class Employee implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(employeeRole.name()));
+        SimpleGrantedAuthority authority =new SimpleGrantedAuthority(employeeRole.name());
+        return Arrays.asList(authority);
     }
 
     @Override
@@ -178,4 +178,5 @@ public class Employee implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 }

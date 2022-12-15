@@ -8,6 +8,9 @@ import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.TaskRepo;
 import com.sebCzabak.fullstackProjectEmployeTodoList.exception.TaskNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class TaskService {
     private final TaskRepo taskRepo;
@@ -30,5 +33,13 @@ public class TaskService {
         Task task = taskRepo.findById(taskId).orElseThrow(()->new TaskNotFoundException(taskId));
         employee.getTaskList().remove(task);
         taskRepo.delete(task);
+    }
+
+    public List<Task> findAll() {
+        return taskRepo.findAll();
+    }
+
+    public Optional<Task> findById(Long id) {
+        return taskRepo.findById(id);
     }
 }

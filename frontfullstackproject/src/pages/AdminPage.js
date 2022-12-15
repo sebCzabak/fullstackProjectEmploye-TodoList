@@ -38,7 +38,6 @@ export default function AdminPage() {
                 <th scope="row" key="{index}">
                   {index + 1}
                 </th>
-
                 <td>{employee.fullName}</td>
                 <td>{employee.userName}</td>
                 <td>{employee.email}</td>
@@ -61,6 +60,12 @@ export default function AdminPage() {
                   >
                     Delete
                   </button>
+                  <Link
+                    className="btn btn-success mx-2"
+                    to={`/addtask/${employee.id}`}
+                  >
+                    AddTask
+                  </Link>
                 </td>
               </tr>
             ))}

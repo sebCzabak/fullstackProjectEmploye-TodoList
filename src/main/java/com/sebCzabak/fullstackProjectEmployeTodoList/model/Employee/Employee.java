@@ -1,6 +1,7 @@
 package com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee;
 
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
+import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationToken;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +34,8 @@ public class Employee implements UserDetails {
     private Boolean locked=false;
     private Boolean enabled=false;
 
+
+
     public Employee() {
     }
     public Employee(String fullName, String userName, String email, String password, List<Task> taskList, EmployeeRole employeeRole) {
@@ -43,6 +46,14 @@ public class Employee implements UserDetails {
         this.taskList = taskList;
         this.employeeRole = employeeRole;
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {

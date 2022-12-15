@@ -25,9 +25,9 @@ public class TaskService {
         return taskRepo.save(task);
     }
 
-    public void deleteTask(Long employeid,Long taskid) {
-        Employee employee = employeeRepo.findById(employeid).orElseThrow(()->new UserNotFoundException(employeid));
-        Task task = taskRepo.findById(taskid).orElseThrow(()->new TaskNotFoundException(taskid));
+    public void deleteTask(Long employeeId,Long taskId) {
+        Employee employee = employeeRepo.findById(employeeId).orElseThrow(()->new UserNotFoundException(employeeId));
+        Task task = taskRepo.findById(taskId).orElseThrow(()->new TaskNotFoundException(taskId));
         employee.getTaskList().remove(task);
         taskRepo.delete(task);
     }

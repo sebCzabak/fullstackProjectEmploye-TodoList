@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function AdminPage() {
   const [employee, setEmployee] = useState([]);
@@ -8,10 +8,15 @@ export default function AdminPage() {
   useEffect(() => {
     loadEmployee();
   }, []);
+  const { id } = useParams();
 
   const loadEmployee = async () => {
     const result = await axios.get("http://localhost:8080/api/employees");
     setEmployee(result.data);
+  };
+  const deleteEmployee = async (id) => {
+    await axios.delete(`http://localhost:8080/api/employees/${id}`);
+    loadEmployee();
   };
 
   return (
@@ -44,8 +49,18 @@ export default function AdminPage() {
                   >
                     Edit
                   </Link>
-                  <button className="btn btn-outline-primary mx-2">View</button>
-                  <button className="btn btn-danger mx-2">Delete</button>
+                  <Link
+                    className="btn btn-outline-primary mx-2"
+                    to={`/viewuser/${employee.id}`}
+                  >
+                    View
+                  </Link>
+                  <button
+                    className="btn btn-danger mx-2"
+                    onClick={() => deleteEmployee(employee.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}

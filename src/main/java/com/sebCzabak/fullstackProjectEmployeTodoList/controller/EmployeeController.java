@@ -6,22 +6,26 @@ import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
 import com.sebCzabak.fullstackProjectEmployeTodoList.service.EmployeeService;
 import com.sebCzabak.fullstackProjectEmployeTodoList.service.TaskService;
 import com.sebCzabak.fullstackProjectEmployeTodoList.request.RegistrationRequest;
+import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationTokenService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
 @RequestMapping(path="/api")
 public class EmployeeController {
 
-    public EmployeeController(TaskService taskService, EmployeeService employeeService) {
+    public EmployeeController(TaskService taskService, EmployeeService employeeService, ConfirmationTokenService confirmationTokenService) {
         this.taskService = taskService;
         this.employeeService = employeeService;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     private final TaskService taskService;
     private final EmployeeService employeeService;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @GetMapping("/employees")
     public List<Employee>getAllEmployees(){
@@ -44,30 +48,39 @@ public class EmployeeController {
 
 
     @PostMapping("/employees/{id}/addTask")
-    public Employee addTask(@PathVariable Long id,
-                            @RequestBody Task task){
-        return employeeService.addTask(id,task);
+    public void addTask(@PathVariable Long id,
+                        @RequestBody Task task){
+        employeeService.addTask(id,task);
     }
-    @DeleteMapping("/employees/id")
-    public String deleteEmployee(@PathVariable Long id){
-        return employeeService.deleteEmployee(id);
+    @DeleteMapping("/employees/{id}")
+    public void deleteEmployee(@PathVariable Long id){
+        employeeService.deleteEmployee(id);
+    }
+    @DeleteMapping("/employees/confirmationToken/{id}")
+    public void deleteToken(@PathVariable Long id){
+        confirmationTokenService.deleteToken(id);
     }
     @PostMapping("/tasks/{id}")
     public Task toggleTaskDone(@PathVariable Long id){
         return taskService.toggleTaskDone(id);
     }
 
-    @DeleteMapping("{employeeid}/tasks/{taskid}")
-    public void deleteTask(@PathVariable Long employeeid, @PathVariable Long taskid){
-        taskService.deleteTask(employeeid,taskid);
+    @DeleteMapping("{employeeId}/tasks/{taskId}")
+    public void deleteTask(@PathVariable Long employeeId, @PathVariable Long taskId){
+        taskService.deleteTask(employeeId,taskId);
     }
 
     @PutMapping("/employees/{id}")
-    public Employee updateEmployeeInfo(@RequestBody Employee newEmployee,@PathVariable Long id){
+    public Employee updateEmployeeInfo(@RequestBody RegistrationRequest newEmployee,@PathVariable Long id){
         return employeeService.updateEmployeeInfo(newEmployee,id);
     }
     @GetMapping("/registration/confirm")
     public String confirm(@RequestParam("token")String token){
         return employeeService.confirmToken(token);
+    }
+
+    @GetMapping("/employees/Login")
+    public Optional<Employee> loginEmployee(@RequestParam String email, @RequestParam String password ){
+        return employeeService.findByEmailAndPassword(email,password);
     }
 }

@@ -26,17 +26,21 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity)throws Exception{
         httpSecurity
-                .csrf().disable()
+                //.csrf().disable()
                 .authorizeHttpRequests()
                     .requestMatchers("/api/registration/**")
                     .permitAll()
                     .requestMatchers("/api/employees/**")
                     .permitAll()
-
+                .requestMatchers("/api/tasks/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginPage("http://localhost:3000/Login")
+                .loginProcessingUrl("/Login")
+                .defaultSuccessUrl("/http://localhost:3000/AdminPage")
                 .and()
                 .httpBasic();
 

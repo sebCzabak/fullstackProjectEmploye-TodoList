@@ -4,6 +4,7 @@ package com.sebCzabak.fullstackProjectEmployeTodoList.service;
 import com.sebCzabak.fullstackProjectEmployeTodoList.exception.EmailAlreadyTakenException;
 import com.sebCzabak.fullstackProjectEmployeTodoList.exception.TokenNotFoundException;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.Task;
+import com.sebCzabak.fullstackProjectEmployeTodoList.model.Task.TaskRepo;
 import com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken.ConfirmationToken;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.EmployeeRepo;
@@ -21,36 +22,43 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class EmployeeService implements UserDetailsService {
     private static final String USER_NOT_FOUND = "user with email %s not found";
 
-    public EmployeeService(EmployeeRepo employeeRepo, EmailValidator emailValidator, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService) {
+    public EmployeeService(EmployeeRepo employeeRepo, EmailValidator emailValidator, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService,
+                           TaskRepo taskRepo) {
         this.employeeRepo = employeeRepo;
         this.emailValidator = emailValidator;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.confirmationTokenService = confirmationTokenService;
 
+        this.taskRepo = taskRepo;
     }
 
     private final EmployeeRepo employeeRepo;
     private final EmailValidator emailValidator;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private final TaskRepo taskRepo;
 
 
     public Employee findById(Long id) {
         return employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
     }
 
-    public Employee addTask(Long id, Task task){
-      employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
+    public void addTask(Long id, Task task){
 
-          Employee employee =new Employee();
-          employee.getTaskList().add(task);
-            return employee;
+            Employee employee = employeeRepo.findById(id).orElseThrow(()->new UserNotFoundException(id));
+
+            task.setDescription(task.getDescription());
+            employee.getTaskList().add(task);
+            taskRepo.save(task);
+            employeeRepo.save(employee);
+
       }
 
 
@@ -62,18 +70,18 @@ public class EmployeeService implements UserDetailsService {
     }
 
     public String register(RegistrationRequest request) {
-        boolean isEmailValid = emailValidator.test(request.email());
+        boolean isEmailValid = emailValidator.test(request.getEmail());
         if(!isEmailValid){
             throw new IllegalStateException("email not valid");
         }
 
         return singUpUser(
                 new Employee(
-                        request.fullName(),
-                        request.userName(),
-                        request.email(),
-                        request.password(),
-                        request.taskList(),
+                        request.getFullName(),
+                        request.getUserName(),
+                        request.getEmail(),
+                        request.getPassword(),
+                        request.getTaskList(),
                         EmployeeRole.USER
                 )
         );
@@ -101,13 +109,13 @@ public class EmployeeService implements UserDetailsService {
     return token;
     }
 
-    public String deleteEmployee(Long id) {
+    public void deleteEmployee(Long id) {
        boolean employeeExists= employeeRepo.existsById(id);
        if(!employeeExists){
            throw new UserNotFoundException(id);
-        };
+        }
         employeeRepo.deleteById(id);
-        return "User with id "+id+" has been deleted successfully";
+
     }
 
 
@@ -137,7 +145,7 @@ public class EmployeeService implements UserDetailsService {
     }
 
 
-    public Employee updateEmployeeInfo(Employee newEmployee, Long id) {
+    public Employee updateEmployeeInfo(RegistrationRequest newEmployee, Long id) {
         return employeeRepo.findById(id)
                 .map(employee -> {
                     employee.setFullName(newEmployee.getFullName());
@@ -146,5 +154,10 @@ public class EmployeeService implements UserDetailsService {
                     employee.setPassword(newEmployee.getPassword());
                     return employeeRepo.save(employee);
                 }).orElseThrow(()->new UserNotFoundException(id));
+    }
+
+    public Optional<Employee> findByEmailAndPassword(String email, String password) {
+        return employeeRepo.findByEmail(email);
+
     }
 }

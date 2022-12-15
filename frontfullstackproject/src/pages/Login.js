@@ -16,7 +16,7 @@ export default function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.get("http://localhost:8080/api/registration/confirm", employee);
+    await axios.get("http://localhost:8080/api/employees/", employee);
     Navigate("/");
   };
   return (

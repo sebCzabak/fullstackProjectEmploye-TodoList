@@ -1,5 +1,6 @@
 package com.sebCzabak.fullstackProjectEmployeTodoList.model.Task;
 
+import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,13 +20,18 @@ public class Task {
     private String description;
     private Boolean done = false;
 
+
     public Task() {
     }
 
     public Task(String description, Boolean done) {
+
         this.description = description;
         this.done = done;
+
+
     }
+
 
     public Long getId() {
         return id;
@@ -50,4 +56,6 @@ public class Task {
     public void setDone(Boolean done) {
         this.done = done;
     }
+
+
 }

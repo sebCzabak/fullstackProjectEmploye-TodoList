@@ -17,6 +17,9 @@ export default function EditUser() {
   const onInputChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
   };
+  useEffect(() => {
+    loadEmployee();
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -28,9 +31,7 @@ export default function EditUser() {
     const result = await axios.get(`http://localhost:8080/api/employees/${id}`);
     setEmployee(result.data);
   };
-  useEffect(() => {
-    loadEmployee();
-  });
+
   return (
     <div className="container">
       <div className="row">

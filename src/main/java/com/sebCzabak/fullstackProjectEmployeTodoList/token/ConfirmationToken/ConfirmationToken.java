@@ -2,6 +2,9 @@ package com.sebCzabak.fullstackProjectEmployeTodoList.token.ConfirmationToken;
 
 import com.sebCzabak.fullstackProjectEmployeTodoList.model.Employee.Employee;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -27,9 +30,10 @@ public class ConfirmationToken {
     private LocalDateTime expiresAt;
     private LocalDateTime confirmedAt;
 
-    @ManyToOne
-    @JoinColumn(nullable = false,
-            name="employee_id")
+
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "employee_id",nullable = false)
     private Employee employee;
 
     public ConfirmationToken() {
